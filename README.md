@@ -9,3 +9,6 @@
 
 
 <!-- TODO: Finish writing the readme -->
+
+
+Install ‘Pillow’ to get Post[ images ] to work; here is the command just in case we need to install it: python -m pip install Pillow
