@@ -6,3 +6,18 @@ export const getPosts = () => {
     })
         .then(response => response.json())
 }
+
+export const createPost = (post) => {
+    return fetch("posts", {})
+        .then()
+}
+
+export const getCategories = () => {
+    return fetch("categories", {})
+        .then()
+}
+
+export const getUser = () => {
+    return fetch("user", {})
+        .then()
+}
