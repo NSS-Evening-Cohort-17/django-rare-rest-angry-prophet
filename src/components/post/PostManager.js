@@ -17,7 +17,6 @@ export const getCategories = () => {
         .then()
 }
 
-
 export const getUser = () => {
     return fetch("user", {})
         .then()
