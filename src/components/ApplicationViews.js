@@ -1,8 +1,11 @@
 import React from "react"
 import { Route } from "react-router-dom"
+import { PostViews } from "./post/PostViews"
 
 export const ApplicationViews = () => {
-  return (
-    <h1 >Welcome to Rare Publishing</h1>
-  )
+  return <>
+    <Route exact path="/posts" >
+      <PostViews />
+    </Route>
+  </>
 }
