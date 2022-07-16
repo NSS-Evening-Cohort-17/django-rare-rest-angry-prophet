@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react"
 import { useHistory } from 'react-router-dom'
-import { createPost, getCategories, getUser } from './PostManager.js'
+import { createPost, getCategories } from './PostManager.js'
 
 
 export const PostForm = () => {
     const history = useHistory()
-    const [getCategories, setCategories] = useState([])
+    // const [categories, setCategories] = useState([])
+    // const [user, setUser] = useState([])
 
     /*
         Since the input fields are bound to the values of
@@ -13,23 +14,31 @@ export const PostForm = () => {
         provide some default values. Done - Subject to approval
     */
     const [currentPost, setCurrentPosts] = useState({
-        author: "",
-        title: "",
-        category_id: 0,
+        author: 1,
+        title: "test",
+        category_id: 1,
         publication_date: "",
-        image_url: "",
+        image_url: "http://dummyimage.com/114x100.png/cc0000/ffffff",
         content: "",
+        // approved: 1
     })
 
-    useEffect(() => {
-        getUser().then(setUser)
-    }, [])
+    // useEffect(() => {
+    //     getCategories().then(data => setCategories(data))
+    // }, [])
 
     const changePostState = (domEvent) => {
         const newPostState = { ...currentPost }
-        newPostState[domEvent.target.name] = domEvent.target.value
-        setCurrentPosts(newPostsState)
+        let selectedVal = domEvent.target.value
+        if (domEvent.target.name.includes("Id")) {
+            selectedVal = parseInt(selectedVal)
+        }
+        // console.log(selectedVal)
+        newPostState[domEvent.target.name] = selectedVal
+        // console.log(newPostState)
+        setCurrentPosts(newPostState)
     }
+
     // Done - Subject to approval
     return (
         <form className="postForm">
@@ -42,6 +51,34 @@ export const PostForm = () => {
                         onChange={changePostState}
                     />
                 </div>
+                <div className="form-group">
+                    <label htmlFor="image">Add Image: </label>
+                    <input type="text" name="image" required autoFocus className="form-control"
+                        value={currentPost.image_url}
+                        onChange={changePostState}
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="author">Add Author: </label>
+                    <input type="text" name="author" required autoFocus className="form-control"
+                        value={currentPost.author}
+                        onChange={changePostState}
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="category">Add Category: </label>
+                    <input type="text" name="category" required autoFocus className="form-control"
+                        value={currentPost.category_id}
+                        onChange={changePostState}
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="content">Add Content: </label>
+                    <input type="text" name="content" required autoFocus className="form-control"
+                        value={currentPost.content}
+                        onChange={changePostState}
+                    />
+                </div>
             </fieldset>
 
             <div>
@@ -50,23 +87,28 @@ export const PostForm = () => {
                 </fieldset>
             </div>
             <button type="submit"
-                onClick={evt => {
-                    // Prevent form from being submitted - Done - Subject to approval
-                    evt.preventDefault()
+                onClick={
+                    evt => {
+                        // Prevent form from being submitted - Done - Subject to approval
+                        evt.preventDefault()
 
-                    const post = {
-                        author: currentPost.author,
-                        title: currentPost.title,
-                        category_id: parseInt(currentPost.category_id),
-                        publication_date: currentPost.publication_date,
-                        image_url: currentPost.image_url,
-                        content: currentPost.content,
-                    }
+                        let yourDate = new Date()
 
-                    // Send POST request to your API - Done - Subject to approval
-                    createPost(post)
-                        .then(() => history.push("/posts"))
-                }}
+                        const post = {
+                            user_id: parseInt(currentPost.author),
+                            category_id: parseInt(currentPost.category_id),
+                            title: currentPost.title,
+                            publication_date: yourDate.toISOString().split('T')[0],
+                            image_url: currentPost.image_url,
+                            content: currentPost.content,
+                            approved: 1
+                        }
+                        console.log(post)
+
+                        // Send POST request to your API - Done - Subject to approval
+                        createPost(post)
+                            .then(() => history.push("/posts/details"))
+                    }}
                 className="btn btn-primary">Create</button>
         </form>
     )
