@@ -1,43 +1,39 @@
 import React, { useEffect, useState } from "react"
+import { useHistory } from 'react-router-dom'
 import { getPosts } from "./PostManager.js"
-import { useHistory, Link } from "react-router-dom"
 
-export const PostViews = () => {
-    const [posts, setPosts] = useState([
-        //you will need this when you create a form; not in here! 
-        // userId: 1,
-        // category_id: 1,
-        // title: "",
-        // publication_date: "",
-        // image_url: "",
-        // content: "",
-        // approved: true
-    ])
-
-    // console.log(posts)
-
+export const PostViews = (props) => {
+    const [posts, setPosts] = useState([])
     const history = useHistory()
 
     useEffect(() => {
         getPosts().then(data => setPosts(data))
     }, [])
 
-    return <>
-
+    return (
         <article className="posts">
+            <div>
+                <button className="btn btn-2 btn-sep icon-create"
+                    onClick={() => {
+                        history.push({ pathname: "/posts/new" })
+                    }}
+                >Create New Post</button>
+            </div>
             {
                 posts.map(post => {
                     return <section key={`post--${post.id}`} className="post">
-                        <div className="post__title" >
-                            <a href="/posts/${post.id}/details" rel="post details"> {post.title} </a>
+                        <div className="post__title">
+                            <a href="/posts/${post.id}/details" rel="post details"> {post.title}</a>
+                            by {post.user_id.user.first_name}
                         </div>
-                        <div className="post__Name">Author: {post.user_id.user.first_name}</div>
-                        <div className="post__category">{post.category_id.label}</div>
+                        <div className="post__category">Category: {post.category_id.label}</div>
+                        <div className="post__publication_date">Posted on {post.publication_date}</div>
+                        <div className="post__image_url">{post.image_url}</div>
+                        <div className="post__content">{post.content}</div>
                     </section>
+
                 })
             }
         </article>
-
-
-    </>
+    )
 }
