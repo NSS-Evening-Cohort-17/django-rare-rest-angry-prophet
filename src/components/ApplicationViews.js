@@ -2,6 +2,7 @@ import React from "react"
 import { Route } from "react-router-dom"
 import { PostForm } from "./post/PostForm"
 import { PostViews } from "./post/PostViews"
+import { PostDetails } from "./post/PostDetails"
 
 export const ApplicationViews = () => {
   return <>
@@ -17,6 +18,9 @@ export const ApplicationViews = () => {
       </Route>
       <Route exact path="/posts" >
         <PostViews />
+      </Route>
+      <Route exact path="/posts/:postId/details" >
+        <PostDetails />
       </Route>
     </main>
   </>

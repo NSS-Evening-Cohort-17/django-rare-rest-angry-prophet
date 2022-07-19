@@ -9,8 +9,10 @@ export const getPosts = () => {
 
 export const getPostByName = (postId) => {
     return fetch(`http://localhost:8000/post/${postId}`, {
+        method: "GET",
         headers: {
-            "Authorization": `token ${localStorage.getItem("lu_token")}`
+            "Authorization": `token ${localStorage.getItem("lu_token")}`,
+            "content-Type": "application/json"
         }
     })
         .then(response => response.json())
