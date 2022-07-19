@@ -20,16 +20,20 @@ export const PostViews = (props) => {
                 >Create New Post</button>
             </div>
             {
-                posts.map(post => {
-                    return <section key={`post--${post.id}`} className="post">
+                posts.map(p => {
+                    return <section key={`post--${p.id}`} className="post">
                         <div className="post__title">
-                            <a href="/posts/${post.id}/details" rel="post details"> {post.title}</a>
-                            by {post.user_id.user.first_name}
+                            <a onClick={() =>
+                                history.push(`/posts/${p.id}/details`)} rel="post details"> {p.title}</a>
+                            by {p.user_id.user.first_name}
                         </div>
-                        <div className="post__category">Category: {post.category_id.label}</div>
-                        <div className="post__publication_date">Posted on {post.publication_date}</div>
-                        <div className="post__image_url">{post.image_url}</div>
-                        <div className="post__content">{post.content}</div>
+                        <div>
+                            {p.id}
+                        </div>
+                        <div className="post__category">Category: {p.category_id.label}</div>
+                        <div className="post__publication_date">Posted on {p.publication_date}</div>
+                        <div className="post__image_url">{p.image_url}</div>
+                        <div className="post__content">{p.content}</div>
                     </section>
 
                 })
